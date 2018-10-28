@@ -3,7 +3,7 @@
 
 import os, shutil, codecs
 
-filename = "index.txt"
+filename = "videoIndex.txt"
 nowPath = os.getcwd() # get the current dir
 tmpVideo = os.path.join(nowPath,"tmpVideo") # create a new dir to store all the video files
 for  fpath,dirs,fs in os.walk(nowPath):  # traversal all videos files in the current dir 
