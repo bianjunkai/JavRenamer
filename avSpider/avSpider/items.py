@@ -20,5 +20,6 @@ class AvspiderItem(scrapy.Item):
     label = scrapy.Field()
     cast = scrapy.Field()
     pic = scrapy.Field()
+    rate = scrapy.Field()
 
     pass

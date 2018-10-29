@@ -23,27 +23,39 @@ class W24spiderSpider(scrapy.Spider):
     pass
 
     def parse_movie(self, response):
-        title = response.xpath("//*[@id=\"video_title\"]/h3/a/text()").extract()[0]
+        title = response.xpath("//*[@id=\"video_title\"]/h3/a/text()")
         item = AvspiderItem()
-        vid = response.xpath("//*[@id=\"video_id\"]//td[@class=\"text\"]/text()").extract()[0]
-        date = response.xpath("//*[@id=\"video_date\"]//td[@class=\"text\"]/text()").extract()[0]
+        vid = response.xpath("//*[@id=\"video_id\"]//td[@class=\"text\"]/text()")
+        date = response.xpath("//*[@id=\"video_date\"]//td[@class=\"text\"]/text()")
         # vid = re.search("[a-zA-Z]{2,5}-?d{2,5}", title).group(0)
         print(vid)
         name = title[len(vid) + 1:]
-        pic = "http:" + response.xpath("//*[@id=\"video_jacket_img\"]/@src").extract()[0]
-        length = response.xpath("//*[@id=\"video_length\"]//span[@class=\"text\"]/text()").extract()[0]
-        director = response.xpath("//*[@id=\"video_director\"]//span[@class=\"director\"]/a/text()").extract()[0]
-        maker = response.xpath("//*[@id=\"video_maker\"]//span[@class=\"maker\"]/a/text()").extract()[0]
-        label = response.xpath("//*[@id=\"video_label\"]//span[@class=\"label\"]/a/text()").extract()[0]
-        cast = response.xpath("//*[@id=\"video_cast\"]//span[@class=\"star\"]/a/text()").extract()[0]
+        pic = response.xpath("//*[@id=\"video_jacket_img\"]/@src")
+        length = response.xpath("//*[@id=\"video_length\"]//span[@class=\"text\"]/text()")
+        director = response.xpath("//*[@id=\"video_director\"]//span[@class=\"director\"]/a/text()")
+        maker = response.xpath("//*[@id=\"video_maker\"]//span[@class=\"maker\"]/a/text()")
+        label = response.xpath("//*[@id=\"video_label\"]//span[@class=\"label\"]/a/text()")
+        cast = response.xpath("//*[@id=\"video_cast\"]//span[@class=\"star\"]/a/text()")
+        rate = response.xpath("//*[@id=\"video_review\"]//span[@class=\"score\"]/text()")
         # item["url"] = response.url
-        item["vid"] = vid
-        item["title"] = name
-        item["pic"] = pic
-        item["release_date"] = date
-        item["length"] = length
-        item["director"] = director
-        item["maker"] = maker
-        item["label"] = label
-        item["cast"] = cast
+        if vid:
+            item["vid"] = vid.extract()[0]
+        if name:
+            item["title"] = name.extract()[0]
+        if pic:
+            item["pic"] = "http:" + pic.extract()[0]
+        if date:
+            item["release_date"] = date.extract()[0]
+        if length:
+            item["length"] = length.extract()[0]
+        if director:
+            item["director"] = director.extract()[0]
+        if maker:
+            item["maker"] = maker.extract()[0]
+        if label:
+            item["label"] = label.extract()[0]
+        if cast:
+            item["cast"] = cast.extract()[0]
+        if rate:
+            item["rate"] = rate.extract()[0]
         yield item

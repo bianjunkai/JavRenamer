@@ -9,7 +9,7 @@ import os, codecs
 
 class AvspiderPipeline(object):
     def process_item(self, item, spider):
-        with codecs.open(os.path.join(os.getcwd() + "metadata.txt"), 'w', encoding='utf-8') as f:
+        with codecs.open(os.path.join(os.getcwd() + "metadata.txt"), 'a', encoding='utf-8') as f:
             for key in item.keys():
                 f.write(item.get(key) + "\n")
         return item
