@@ -13,8 +13,8 @@ for  fpath,dirs,fs in os.walk(nowPath):  # traversal all videos files in the cur
             with codecs.open(filename, 'a', encoding='utf-8') as fileobject:
                 print(os.path.join(fpath, f))
                 fileobject.write(f + "\n")
-            videFile = os.path.join(fpath,f) # get the full path of video files 
-"""             if not os.path.exists(tmpVideo):
-                os.makedirs(tmpVideo) 
-            shutil.copy(videFile,tmpVideo) # copy files use shutil.move() to move the file
- """
+        """         videFile = os.path.join(fpath,f) # get the full path of video files
+            if not os.path.exists(tmpVideo):
+               os.makedirs(tmpVideo) 
+           shutil.copy(videFile,tmpVideo) # copy files use shutil.move() to move the file
+"""
