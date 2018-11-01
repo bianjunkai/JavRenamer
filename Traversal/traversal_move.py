@@ -46,18 +46,19 @@ def checkDict(dictname):
         for f in fs:
             if os.path.splitext(f)[1] == ".mp4" or os.path.splitext(f)[1] == ".avi" or os.path.splitext(f)[
                 1] == ".mkv":  # verify the video files
-                print(os.path.join(fpath, f))
+                with codecs.open("unmoved.txt", 'a', encoding='utf-8') as fileobject:
+                    fileobject.write(os.path.join(fpath, f) + "\n")
 
 
-destDict = loadDestination()
-unsortDict = creatPATHdict("Favorites")
-for index in unsortDict:
-    origin = unsortDict[index]
-    print(origin)
-    if index in destDict.keys():
-        dest = destDict[index]
-        print(dest)
-        shutil.move(origin, dest)
-    else:
-        continue
+# destDict = loadDestination()
+# unsortDict = creatPATHdict("Favorites")
+# for index in unsortDict:
+#     origin = unsortDict[index]
+#     print(origin)
+#     if index in destDict.keys():
+#         dest = destDict[index]
+#         print(dest)
+#         shutil.move(origin, dest)
+#     else:
+#         continue
 checkDict("Favorites")
