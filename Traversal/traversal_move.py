@@ -1,0 +1,63 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+'''
+@author: junkai
+@file: traversal_move.py.py
+@time: 2018/11/1 0001 上午 7:54
+@desc:
+'''
+
+import os, codecs, re, shutil
+
+WORKPATH = os.getcwd()
+DESTINATION_PATH = os.path.join(WORKPATH, "Destination")
+PATTERN = re.compile(r'[a-zA-Z]{2,4}-?\d{1,4}')
+destDict = {}
+
+
+def creatPATHdict(dictname):
+    pathDict = {}
+    for fpath, dirs, fs in os.walk(os.path.join(WORKPATH, dictname)):
+        for f in fs:
+            if os.path.splitext(f)[1] == ".mp4" or os.path.splitext(f)[1] == ".avi" or os.path.splitext(f)[
+                1] == ".mkv":  # verify the video files
+                m = re.search(PATTERN, f)
+                if m:
+                    label = re.findall(r'[a-zA-Z]{2,4}', m.group())
+                    serial = re.findall(r'[0-9]{1,4}', m.group())
+                    index = label[0].upper() + "-" + serial[0]
+                    pathDict[index] = os.path.join(fpath, f)
+    return pathDict
+
+
+def loadDestination():
+    pathDict = {}
+    for fpath, dirs, fs in os.walk(DESTINATION_PATH):
+        for f in fs:
+            if os.path.splitext(f)[1] == ".nfo":  # verify the video files
+                name = os.path.splitext(f)[0]
+                pathDict[name] = fpath
+    return pathDict
+
+
+def checkDict(dictname):
+    print("CHECK CHECK CHECK:\n")
+    for fpath, dirs, fs in os.walk(dictname):  # traversal all videos files in the current dir
+        for f in fs:
+            if os.path.splitext(f)[1] == ".mp4" or os.path.splitext(f)[1] == ".avi" or os.path.splitext(f)[
+                1] == ".mkv":  # verify the video files
+                print(os.path.join(fpath, f))
+
+
+destDict = loadDestination()
+unsortDict = creatPATHdict("Favorites")
+for index in unsortDict:
+    origin = unsortDict[index]
+    print(origin)
+    if index in destDict.keys():
+        dest = destDict[index]
+        print(dest)
+        shutil.move(origin, dest)
+    else:
+        continue
+checkDict("Favorites")
