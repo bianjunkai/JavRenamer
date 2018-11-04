@@ -10,7 +10,7 @@
 import os, codecs, re, shutil
 
 WORKPATH = os.getcwd()
-DESTINATION_PATH = os.path.join(WORKPATH, "Destination")
+DESTINATION_PATH = os.path.join(WORKPATH, "nfo_cast")
 PATTERN = re.compile(r'[a-zA-Z]{2,4}-?\d{1,4}')
 destDict = {}
 
@@ -51,14 +51,18 @@ def checkDict(dictname):
 
 
 # destDict = loadDestination()
-# unsortDict = creatPATHdict("Favorites")
-# for index in unsortDict:
-#     origin = unsortDict[index]
+# originDict = creatPATHdict("Movies")
+# for index in originDict:
+#     origin = originDict[index]
+#     filetype = os.path.splitext(origin)[1]
+#     filename = index+filetype
 #     print(origin)
 #     if index in destDict.keys():
-#         dest = destDict[index]
-#         print(dest)
-#         shutil.move(origin, dest)
+#         destdir = destDict[index]
+#         destfile = os.path.join(destdir,filename)
+#         print("Move to:"+destfile+"\n")
+#         shutil.move(origin, destfile)
 #     else:
 #         continue
-checkDict("Favorites")
+
+checkDict("unmoved")

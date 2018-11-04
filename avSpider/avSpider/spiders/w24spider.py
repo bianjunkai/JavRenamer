@@ -8,7 +8,7 @@ from avSpider.items import AvspiderItem
 class W24spiderSpider(scrapy.Spider):
     name = 'w24spider'
     allowed_domains = ['www.w24j.com']
-    start_urls = ['http://www.w24j.com/cn/']
+    start_urls = ['https://www.w24j.com/cn/']
     vidsets = set()
 
     def parse(self, response):
@@ -17,13 +17,13 @@ class W24spiderSpider(scrapy.Spider):
             for onevid in f.readlines():
                 W24spiderSpider.vidsets.add(onevid)
         for vid in W24spiderSpider.vidsets:
-            url = 'http://www.w24j.com/cn/vl_searchbyid.php?keyword=' + vid.strip()
+            url = 'https://www.w24j.com/cn/vl_searchbyid.php?keyword=' + vid.strip()
             yield scrapy.Request(url, callback=self.parse_movie)
 
     pass
 
     def parse_movie(self, response):
-        if response.url.startswith("http://www.w24j.com/cn/?v=jav"):
+        if response.url.startswith("https://www.w24j.com/cn/?v=jav"):
             title = response.xpath("//*[@id=\"video_title\"]/h3/a/text()")
             item = AvspiderItem()
             vid = response.xpath("//*[@id=\"video_id\"]//td[@class=\"text\"]/text()")
@@ -58,5 +58,18 @@ class W24spiderSpider(scrapy.Spider):
             if rate:
                 item["rate"] = rate.extract()[0]
             yield item
+        elif response.url.startswith("https://www.w24j.com/cn/vl_searchbyid.php?keyword="):
+            vid = response.url.split("=")[1].upper()
+            print(vid)
+            for av in response.xpath("//div[@class=\"video\"]/a"):
+                href = av.xpath("@href").extract()[0]
+                title = av.xpath("@title").extract()[0].split(" ")[0]
+                print(title)
+                print(href)
+                if (title == vid):
+                    url = urllib.parse.urljoin('https://www.w24j.com/cn/', href)
+                    print(url)
+                    yield scrapy.Request(url, callback=self.parse_movie)
+                    break
         else:
             pass
