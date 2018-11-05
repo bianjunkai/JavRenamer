@@ -1,2 +1,3 @@
 # JavRenamer
-Automatic rename shell for my own need
+A serial of Python shells which manger my private video collection. 
+Get metadata from w24j.com(related to javlibrary.com)
