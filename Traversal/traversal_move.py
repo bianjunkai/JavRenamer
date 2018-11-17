@@ -14,7 +14,7 @@ DESTINATION_PATH = os.path.join(WORKPATH, "nfo_cast")
 PATTERN = re.compile(r'[a-zA-Z]{2,4}-?\d{1,4}')
 destDict = {}
 
-
+# 建立番号和番号对应视频文件直接的索引
 def creatPATHdict(dictname):
     pathDict = {}
     for fpath, dirs, fs in os.walk(os.path.join(WORKPATH, dictname)):
@@ -29,7 +29,7 @@ def creatPATHdict(dictname):
                     pathDict[index] = os.path.join(fpath, f)
     return pathDict
 
-
+# 找到目标nfo文件的具体位置
 def loadDestination():
     pathDict = {}
     for fpath, dirs, fs in os.walk(DESTINATION_PATH):
@@ -39,7 +39,7 @@ def loadDestination():
                 pathDict[name] = fpath
     return pathDict
 
-
+# 搜索和确认仍然未移动的文件
 def checkDict(dictname):
     print("CHECK CHECK CHECK:\n")
     for fpath, dirs, fs in os.walk(dictname):  # traversal all videos files in the current dir

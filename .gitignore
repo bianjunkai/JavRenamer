@@ -1,0 +1,13 @@
+.idea/modules.xml
+.idea/JavRenamer.iml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.vscode/settings.json
+avSpider/log.txt
+avSpider/avSpider/__pycache__/__init__.cpython-37.pyc
+avSpider/avSpider/__pycache__/items.cpython-37.pyc
+avSpider/avSpider/__pycache__/pipelines.cpython-37.pyc
+avSpider/avSpider/__pycache__/settings.cpython-37.pyc
+avSpider/avSpider/spiders/__pycache__/__init__.cpython-37.pyc
+avSpider/avSpider/spiders/__pycache__/w24spider.cpython-37.pyc

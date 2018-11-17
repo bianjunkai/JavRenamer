@@ -5,7 +5,7 @@ import os, shutil, codecs
 
 filename = "videoIndex.txt"
 nowPath = os.getcwd() # get the current dir
-tmpVideo = os.path.join(nowPath,"tmpVideo") # create a new dir to store all the video files
+# tmpVideo = os.path.join(nowPath,"tmpVideo") # create a new dir to store all the video files
 for  fpath,dirs,fs in os.walk(nowPath):  # traversal all videos files in the current dir 
     for f in fs:
         if os.path.splitext(f)[1] == ".mp4" or os.path.splitext(f)[1] == ".avi" or os.path.splitext(f)[

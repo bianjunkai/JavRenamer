@@ -6,6 +6,7 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import os, codecs, urllib
 from xml.etree.ElementTree import Element, SubElement, ElementTree
+from avSpider.traversal import moveFile
 
 class AvspiderPipeline(object):
     # def process_item(self, item, spider):
@@ -16,7 +17,8 @@ class AvspiderPipeline(object):
 
     def process_item(self, item, spider):
         root = Element('movie')
-        nfodict = os.path.join(os.getcwd(), 'nfo_cast')
+        WORK_PATH = os.path.dirname(os.getcwd())
+        DEST_PATH = os.path.join(WORK_PATH, 'Movies') #Predefined WORD USED
         for key in item.keys():
             if key == 'vid':
                 num = SubElement(root, 'num')
@@ -62,7 +64,7 @@ class AvspiderPipeline(object):
                 pass
 
         tree = ElementTree(root)
-        dictCast = os.path.join(nfodict, item['cast'])
+        dictCast = os.path.join(DEST_PATH, item['cast'])
         if not os.path.exists(dictCast):
             os.makedirs(dictCast)
         # tmpName = item['title']
@@ -78,5 +80,9 @@ class AvspiderPipeline(object):
         file_name = os.path.join(dictVid, item['vid'] + '.jpg')
         with open(file_name, 'wb') as fp:
             fp.write(res.read())
+        
+        fpath = item.get('fpath')
+        # print(fpath)
+        moveFile(item['vid'],fpath,dictVid)
 
         return item
