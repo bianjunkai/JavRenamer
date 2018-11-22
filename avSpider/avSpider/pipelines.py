@@ -64,25 +64,27 @@ class AvspiderPipeline(object):
                 pass
 
         tree = ElementTree(root)
-        dictCast = os.path.join(DEST_PATH, item['cast'])
-        if not os.path.exists(dictCast):
-            os.makedirs(dictCast)
-        # tmpName = item['title']
-        dictVid = os.path.join(dictCast, item['vid'])
-        if not os.path.exists(dictVid):
-            os.makedirs(dictVid)
+        if item['cast']:
+            dictCast = os.path.join(DEST_PATH, item['cast'])
+            if not os.path.exists(dictCast):
+                os.makedirs(dictCast)
+            # tmpName = item['title']
+            dictVid = os.path.join(dictCast, item['vid'])
+            if not os.path.exists(dictVid):
+                os.makedirs(dictVid)
+            
+            tree.write(os.path.join(dictVid, item['vid'] + '.nfo'), encoding='utf-8')
 
-        tree.write(os.path.join(dictVid, item['vid'] + '.nfo'), encoding='utf-8')
+            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0'}
+            req = urllib.request.Request(url=item['pic'], headers=headers)
+            res = urllib.request.urlopen(req)
+            file_name = os.path.join(dictVid, item['vid'] + '.jpg')
+            with open(file_name, 'wb') as fp:
+                fp.write(res.read())
 
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0'}
-        req = urllib.request.Request(url=item['pic'], headers=headers)
-        res = urllib.request.urlopen(req)
-        file_name = os.path.join(dictVid, item['vid'] + '.jpg')
-        with open(file_name, 'wb') as fp:
-            fp.write(res.read())
-        
-        fpath = item.get('fpath')
-        # print(fpath)
-        moveFile(item['vid'],fpath,dictVid)
+            fpath = item.get('fpath')
+            # print(fpath)
+            moveFile(item['vid'],fpath,dictVid)
+            print("Move "+item['vid']+"To: "+dictVid+" OK!\n")
 
         return item

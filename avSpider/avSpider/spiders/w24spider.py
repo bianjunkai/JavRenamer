@@ -11,11 +11,11 @@ from avSpider.items import AvspiderItem
 class W24spiderSpider(scrapy.Spider):
     name = 'w24spider'
     allowed_domains = ['www.w24j.com']
-    start_urls = ['https://www.w24j.com/cn/']  
-    
+    start_urls = ['https://www.w24j.com/cn/']
+
     def parse(self, response):
         WORK_PATH = os.path.dirname(os.getcwd())
-        ORIN_PATH = os.path.join(WORK_PATH,"unmoved") 
+        ORIN_PATH = os.path.join(WORK_PATH,"unmoved")
         DEST_PATH = os.path.join(WORK_PATH,"Movies")
         videos = creatPATHdict(ORIN_PATH)
         vidsets = set()
@@ -25,19 +25,19 @@ class W24spiderSpider(scrapy.Spider):
         # indexFile = os.path.join(os.getcwd(), "index.txt")  #Predefined WORD USED
         # with open(indexFile, 'r') as f:
         #     for onevid in f.readlines():
-        #         
+        #
         for vid in vidsets:
             # print(vid)
             url = 'https://www.w24j.com/cn/vl_searchbyid.php?keyword=' + vid.strip()
             # print(videos)
             fpath = videos.get(vid)
-            # print(fpath)
+            #print(fpath)
             yield scrapy.Request(url,meta={'fpath':fpath},callback=self.parse_movie)
-        checkDict(ORIN_PATH)
+        # checkDict(ORIN_PATH)
     pass
 
-    def parse_movie(self, response):    
-        fpath = response.meta['fpath']   
+    def parse_movie(self, response):
+        fpath = response.meta['fpath']
         # print(fpath)
         if response.url.startswith("https://www.w24j.com/cn/?v=jav"):
             title = response.xpath("//*[@id=\"video_title\"]/h3/a/text()")
@@ -86,7 +86,7 @@ class W24spiderSpider(scrapy.Spider):
                 # print(href)
                 if (title == vid):
                     url = urllib.parse.urljoin('https://www.w24j.com/cn/', href)
-                    print(url)
+                    # print(url)
                     yield scrapy.Request(url, meta={'fpath':fpath},callback=self.parse_movie)
                     break
         else:

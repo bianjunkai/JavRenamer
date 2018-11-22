@@ -3,10 +3,10 @@
 
 import os, codecs, re, shutil
 
-PATTERN = re.compile(r'[a-zA-Z]{2,4}-?\d{1,4}')
+PATTERN = re.compile(r'[a-zA-Z]{2,5}-?\d{1,4}')
 
 def regLabelAndSerial(vid):
-    label = re.findall(r'[a-zA-Z]{2,4}', vid)
+    label = re.findall(r'[a-zA-Z]{2,5}', vid)
     serial = re.findall(r'[0-9]{1,4}', vid)
     index = label[0].upper() + "-" + serial[0]
     return index
@@ -17,7 +17,7 @@ def creatPATHdict(workpath):
     for fpath, dirs, fs in os.walk(workpath):
         for f in fs:
             if os.path.splitext(f)[1] == ".mp4" or os.path.splitext(f)[1] == ".avi" or os.path.splitext(f)[
-                1] == ".mkv":  # verify the video files
+                1] == ".wmv" or os.path.splitext(f)[1] == ".mkv":  # verify the video files
                 m = re.search(PATTERN, f)
                 if m:
                     index = regLabelAndSerial(m.group())
